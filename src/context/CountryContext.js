@@ -5,6 +5,7 @@ export const CountryContext = createContext();
 const CountryContextProvider = (props) => {
     // States
     const [countryList, setCountryList] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState(null);
 
     // API Endpoint
     const url = `https://restcountries.eu/rest/v2/capital/`;
@@ -17,7 +18,12 @@ const CountryContextProvider = (props) => {
             )
             .then(async (data) => {
                 const countryListData = await data.json();
-                setCountryList(countryListData);
+                if(Array.isArray(countryListData)) {
+                    setCountryList(countryListData);
+                }
+                else {
+                    setCountryList([]);
+                }
             })
             .catch((error) => {
                 console.log(`Error ${error}`)
@@ -25,11 +31,18 @@ const CountryContextProvider = (props) => {
         }
     }
 
+    // Function to add info to selected country
+    const selectCountry = (info) => {
+        setSelectedCountry(info);
+    }
+
     return(
         <CountryContext.Provider
             value={{
-                countryList, 
-                searchCountry
+                countryList,
+                selectedCountry,
+                searchCountry,
+                selectCountry,
             }}
         >
             {props.children}
