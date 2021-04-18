@@ -9,7 +9,7 @@ function App() {
     <div className="appContainer">
       <CountryContextProvider>
         <Search/>
-        <Result/>
+        <Result/> 
         <CountryDetails/>
       </CountryContextProvider>
     </div>
